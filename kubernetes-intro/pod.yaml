@@ -1,13 +1,18 @@
 apiVersion: v1
-kind: pod
+kind: Pod
 metadata:
   name: intro
   namespace: homework
 spec:
-  os: {name: linux}
+  # os: {name: linux}
   containers:
     - name: web
-      image:kyos0109/ngingxdistroless
+      image: kyos0109/ngingxdistroless
+      command: ["ls"]
+
+  initContainers:
+    - name: init-web
+      image: busybox:latest
+      command: ["ls"]
   volumes:
     - name: webvolume
-      
