@@ -2,10 +2,10 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: intro
-  namespace: homework-intro
+  namespace: homework
 spec:
   # os: {name: linux}
-  serviceAccountName: homework-intro
+  serviceAccountName: homework
   containers:
     - name: web
       image: nginx:alpine
