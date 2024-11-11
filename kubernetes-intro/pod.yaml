@@ -2,17 +2,32 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: intro
-  namespace: homework
+  namespace: homework-intro
 spec:
   # os: {name: linux}
+  serviceAccountName: homework-intro
   containers:
     - name: web
-      image: kyos0109/ngingxdistroless
-      command: ["ls"]
+      image: nginx:alpine
+      command:
+        - mkdir -p /homework
+        # -
+      ports:
+        - containerPort: 8000
+      volumeMounts:
+        - name: webvolume
+          mountPath: /homework
 
   initContainers:
     - name: init-web
-      image: busybox:latest
-      command: ["ls"]
+      image: busybox:stable
+      command:
+        - mkdir -p /init
+        # - wget
+      volumeMounts:
+        - name: webvolume
+          mountPath: /init
+
   volumes:
     - name: webvolume
+      emptyDir: {}
