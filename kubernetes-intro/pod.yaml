@@ -2,28 +2,34 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: intro
+  # 02 namespace homework
   namespace: homework
 spec:
   # os: {name: linux}
   serviceAccountName: homework
   containers:
+    # 03 web, port 8080, /homework
     - name: web
       image: nginx:alpine
       command:
         - mkdir -p /homework
         # -
+        # 06 index.html deletion
       ports:
         - containerPort: 8000
+      # 05 common volume /homework /init
       volumeMounts:
         - name: webvolume
           mountPath: /homework
 
   initContainers:
+    # 04 init, index.html, /init
     - name: init-web
       image: busybox:stable
       command:
         - mkdir -p /init
         # - wget
+      # 05 common volume /homework /init
       volumeMounts:
         - name: webvolume
           mountPath: /init
