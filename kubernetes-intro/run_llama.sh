@@ -3,7 +3,7 @@ set -x
 
 NS=homework
 PORT=8000
-POD_NAME=/nginx-pod
+POD_NAME=nginx-pod
 
 cp namespace_ll.yaml namespace.yaml
 cp pod_ll.yaml pod.yaml
