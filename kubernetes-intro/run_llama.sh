@@ -1,4 +1,5 @@
 #!/bin/sh
+set -x
 
 NS=homework
 PORT=8000
