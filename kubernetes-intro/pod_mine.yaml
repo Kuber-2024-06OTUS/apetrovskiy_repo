@@ -11,21 +11,28 @@ spec:
     - name: web
       image: nginx:alpine
       command:
-        - mkdir -p /homework
+        - ls /
+        # - mkdir -p /homework
         # -
       ports:
         - containerPort: 8000
           hostPort: 8000
+          name: web-port
       volumeMounts:
         - name: webvolume
           mountPath: /homework
 
   initContainers:
     - name: init-web
-      image: busybox:stable
-      command:
-        - mkdir -p /init
-        - wget -k -P /init/index.html http://yandex.ru/
+      # image: busybox:stable
+      image: busybox:latest
+      command: ["sh", "-c"]
+      args:
+        - "echo 'Hello World!' > /init/index.html"
+      # command:
+      #   - ls /
+        # - mkdir -p /init
+        # - wget -k -P /init/index.html http://yandex.ru/
       volumeMounts:
         - name: webvolume
           mountPath: /init

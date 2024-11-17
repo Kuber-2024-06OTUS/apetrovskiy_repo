@@ -2,6 +2,7 @@
 
 NS=homework
 PORT=8000
+POD_NAME=/nginx-pod
 
 cp namespace_ll.yaml namespace.yaml
 cp pod_ll.yaml pod.yaml
@@ -14,15 +15,17 @@ kubectl apply -f account.yaml
 kubectl apply -f pod.yaml
 kubectl get pod nginx-pod -o wide --namespace "${NS}"
 #
-sleep 5m
+sleep 1m
 #
-kubectl port-forward pod/nginx-pod -n "${NS}" "${PORT}:${PORT}" &
+kubectl port-forward "pod/${POD_NAME}" -n "${NS}" "${PORT}:${PORT}" &
 #
 kubectl get po -n "${NS}"
 #
+kubectl describe "pod/${POD_NAME}" --namespace="${NS}"
 curl http://localhost:${PORT}/${NS}/
 curl http://localhost:${PORT}/${NS}/init/
-kubectl delete pod nginx-pod --namespace "${NS}"
+kubectl describe "pod/${POD_NAME}" --namespace="${NS}"
+# kubectl delete pod nginx-pod --namespace "${NS}"
 
 # namespace/homework created
 # serviceaccount/homework created
