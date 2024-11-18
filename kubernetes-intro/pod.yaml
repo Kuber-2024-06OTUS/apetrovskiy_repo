@@ -10,10 +10,6 @@ spec:
   containers:
     - name: web
       image: nginx:alpine
-      # command:
-      #   - ls /
-        # - mkdir -p /homework
-        # -
       ports:
         - containerPort: 8000
           hostPort: 8000

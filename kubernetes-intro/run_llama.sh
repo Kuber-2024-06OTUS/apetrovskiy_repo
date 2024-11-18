@@ -22,7 +22,6 @@ kubectl port-forward "pod/${POD_NAME}" -n "${NS}" "${PORT}:${PORT}" &
 #
 kubectl get po -n "${NS}"
 #
-kubectl describe "pod/${POD_NAME}" --namespace="${NS}"
 curl http://localhost:${PORT}/${NS}/
 curl http://localhost:${PORT}/${NS}/init/
 kubectl describe "pod/${POD_NAME}" --namespace="${NS}"
