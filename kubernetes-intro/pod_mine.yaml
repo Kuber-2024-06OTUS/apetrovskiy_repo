@@ -21,8 +21,8 @@ spec:
 
   initContainers:
     - name: init-web
-      # image: busybox:stable
-      image: busybox:latest
+      image: busybox:stable
+      # image: busybox:latest
       command: ["sh", "-c"]
       args:
         - "echo 'Hello World!' > /init/index.html"
