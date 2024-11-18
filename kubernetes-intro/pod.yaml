@@ -1,38 +1,36 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: intro
+  name: nginx-pod
   namespace: homework
 spec:
-  os: {name: linux}
   serviceAccountName: homework
-  restartPolicy: Never
+  automountServiceAccountToken: false
   containers:
-    - name: web
-      image: nginx:alpine
+    - name: nginx-container
+      image: nginx:latest
       ports:
         - containerPort: 8000
           hostPort: 8000
-          name: web-port
+          name: nginx-port
       volumeMounts:
-        - name: webvolume
+        - name: common-volume
           mountPath: /homework
-
   initContainers:
-    - name: init-web
-      # image: busybox:stable
+    - name: init-container
       image: busybox:latest
       command: ["sh", "-c"]
       args:
         - "echo 'Hello World!' > /init/index.html"
-      # command:
-      #   - ls /
-        # - mkdir -p /init
-        # - wget -k -P /init/index.html http://yandex.ru/
       volumeMounts:
-        - name: webvolume
+        - name: common-volume
           mountPath: /init
-
   volumes:
-    - name: webvolume
+    - name: common-volume
       emptyDir: {}
+  # lifecycle:
+  #   postStart:
+  #     exec:
+  #       command: ["sh", "-c"]
+  #       args:
+  #         - "rm /homework/index.html"

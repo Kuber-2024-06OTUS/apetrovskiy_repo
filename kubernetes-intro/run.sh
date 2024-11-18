@@ -19,7 +19,7 @@ kubectl apply -f pod.yaml
 # sleep 2m
 kubectl get pod "${POD_NAME}" -o wide --namespace "${NS}"
 #
-sleep 10s
+sleep 1m
 #
 kubectl port-forward "${POD_NAME}" -n "${NS}" "${PORT}:${PORT}" &
 #

@@ -5,6 +5,7 @@ metadata:
   namespace: homework
 spec:
   serviceAccountName: homework
+  automountServiceAccountToken: false
   containers:
     - name: nginx-container
       image: nginx:latest

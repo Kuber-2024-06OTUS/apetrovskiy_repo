@@ -6,6 +6,7 @@ metadata:
 spec:
   os: {name: linux}
   serviceAccountName: homework
+  automountServiceAccountToken: false
   restartPolicy: Never
   containers:
     - name: web

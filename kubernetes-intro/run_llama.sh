@@ -16,7 +16,7 @@ kubectl apply -f account.yaml
 kubectl apply -f pod.yaml
 kubectl get pod nginx-pod -o wide --namespace "${NS}"
 #
-sleep 10s
+sleep 1m
 #
 kubectl port-forward "pod/${POD_NAME}" -n "${NS}" "${PORT}:${PORT}" &
 #
