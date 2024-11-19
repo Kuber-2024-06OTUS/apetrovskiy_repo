@@ -42,7 +42,7 @@ IS_WEB_STARTED=$(kubectl get events | grep 'Started container web')
 echo "=== Checking availability of the pod and existense of ${PAGE_FILE}... ==="
 POD_IP=$(kubectl get pod "${POD_NAME}" -o wide -ojsonpath='{.status.podIP}')
 kubectl exec "${POD_NAME}" -- curl -s "http://${POD_IP}:${PORT}"
-IS_PORT_SET=$(kubectl get pod "${POD_NAME}" -o wide -ojsonpath='{.status.podPort}')
+IS_PORT_SET=$(kubectl get pod "${POD_NAME}" -o wide -ojsonpath='{.spec.containers[0].ports[0].containerPort}')
 [ "${PORT}" = "${IS_PORT_SET}" ] && echo "pod port set to ${PORT} - ${PASSED}" || echo "pod port set to ${PORT}  - ${FAILED}"
 kubectl cp "${POD_NAME}:homework/${PAGE_FILE}" "./${PAGE_FILE}"
 [ -e "${PAGE_FILE}" ] && echo "${PAGE_FILE} found - ${PASSED}" || echo "${PAGE_FILE} found - ${FAILED}"
