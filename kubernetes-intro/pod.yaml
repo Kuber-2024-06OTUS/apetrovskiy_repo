@@ -18,6 +18,11 @@ spec:
       volumeMounts:
         - name: webvolume
           mountPath: /homework
+      lifecycle:
+        preStop:
+          exec:
+            command:
+              - "rm -f /homework/index.html"
 
   initContainers:
     - name: init-web

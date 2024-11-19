@@ -14,18 +14,30 @@ minikube start
 kubectl create -f namespace.yaml
 kubectl apply -f account.yaml
 kubectl apply -f pod.yaml
-kubectl get pod nginx-pod -o wide --namespace "${NS}"
+
 #
 sleep 1m
 #
+kubectl get pod "${POD_NAME}" -o wide --namespace "${NS}"
+# NAME    READY   STATUS    RESTARTS   AGE   IP           NODE       NOMINATED NODE   READINESS GATES
+# intro   1/1     Running   0          60s   10.244.0.2   minikube   <none>           <none>
+POD_IP=$(kubectl get pod "${POD_NAME}" -o wide --namespace "${NS}" -ojsonpath='{.spec.IP}')
+PIP=$(kubectl get pod "${POD_NAME}" -o wide --namespace "${NS}" -ojsonpath='{.spec.ip}')
+echo $PIP
+PN=$(kubectl get pod "${POD_NAME}" -o wide --namespace "${NS}" -ojsonpath='{.spec.name}')
+echo $PN
+PND=$(kubectl get pod "${POD_NAME}" -o wide --namespace "${NS}" -ojsonpath='{.spec.node}')
+echo $PND
+
 kubectl port-forward "pod/${POD_NAME}" -n "${NS}" "${PORT}:${PORT}" &
 #
 kubectl get po -n "${NS}"
 #
+kubectl exec "${POD_NAME}" -- curl -s "http://${POD_IP}:${PORT}"
 curl http://localhost:${PORT}/${NS}/
 curl http://localhost:${PORT}/${NS}/init/
 kubectl describe "pod/${POD_NAME}" --namespace="${NS}"
-# kubectl delete pod nginx-pod --namespace "${NS}"
+# kubectl delete pod "${POD_NAME}" --namespace "${NS}"
 
 # namespace/homework created
 # serviceaccount/homework created

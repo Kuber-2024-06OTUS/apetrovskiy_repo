@@ -1,0 +1,99 @@
+{
+    "conditions": [
+        {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2024-11-19T06:52:32Z",
+            "status": "True",
+            "type": "PodReadyToStartContainers"
+        },
+        {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2024-11-19T06:52:32Z",
+            "status": "True",
+            "type": "Initialized"
+        },
+        {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2024-11-19T06:52:39Z",
+            "status": "True",
+            "type": "Ready"
+        },
+        {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2024-11-19T06:52:39Z",
+            "status": "True",
+            "type": "ContainersReady"
+        },
+        {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2024-11-19T06:52:26Z",
+            "status": "True",
+            "type": "PodScheduled"
+        }
+    ],
+    "containerStatuses": [
+        {
+            "containerID": "docker://e61915e53eecc6886c1179c3526b269252acd9fce5e89c555c91ba64b6a7842f",
+            "image": "nginx:alpine",
+            "imageID": "docker-pullable://nginx@sha256:74175cf34632e88c6cfe206897cbfe2d2fecf9bf033c40e7f9775a3689e8adc7",
+            "lastState": {},
+            "name": "web",
+            "ready": true,
+            "restartCount": 0,
+            "started": true,
+            "state": {
+                "running": {
+                    "startedAt": "2024-11-19T06:52:39Z"
+                }
+            },
+            "volumeMounts": [
+                {
+                    "mountPath": "/homework",
+                    "name": "webvolume"
+                }
+            ]
+        }
+    ],
+    "hostIP": "192.168.49.2",
+    "hostIPs": [
+        {
+            "ip": "192.168.49.2"
+        }
+    ],
+    "initContainerStatuses": [
+        {
+            "containerID": "docker://625d1da861440877b310925e64825d967500199afe77fa97a15b10286cb1778f",
+            "image": "busybox:stable",
+            "imageID": "docker-pullable://busybox@sha256:c230832bd3b0be59a6c47ed64294f9ce71e91b327957920b6929a0caa8353140",
+            "lastState": {},
+            "name": "init-web",
+            "ready": true,
+            "restartCount": 0,
+            "started": false,
+            "state": {
+                "terminated": {
+                    "containerID": "docker://625d1da861440877b310925e64825d967500199afe77fa97a15b10286cb1778f",
+                    "exitCode": 0,
+                    "finishedAt": "2024-11-19T06:52:31Z",
+                    "reason": "Completed",
+                    "startedAt": "2024-11-19T06:52:31Z"
+                }
+            },
+            "volumeMounts": [
+                {
+                    "mountPath": "/init",
+                    "name": "webvolume"
+                }
+            ]
+        }
+    ],
+    "phase": "Running",
+    "podIP": "10.244.0.2",
+    "podIPs": [
+        {
+            "ip": "10.244.0.2"
+        }
+    ],
+    "qosClass": "BestEffort",
+    "startTime": "2024-11-19T06:52:26Z"
+}
