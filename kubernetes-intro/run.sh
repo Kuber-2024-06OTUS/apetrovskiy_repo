@@ -32,16 +32,18 @@ kubectl port-forward "${POD_NAME}" "${PORT}:${PORT}" &
 
 # checking status of the pod containers
 echo "=== Checking that containers have started... ==="
-INIT_STARTED=$(kubectl get events | grep 'Started container init')
-WEB_STARTED=$(kubectl get events | grep 'Started container web')
-[ ! -z "${INIT_STARTED}" ] && echo "init started - ${PASSED}" || echo "init started - ${FAILED}"
-[ ! -z "${WEB_STARTED}" ] && echo "web started - ${PASSED}" || echo "web started - ${FAILED}"
+IS_INIT_STARTED=$(kubectl get events | grep 'Started container init')
+IS_WEB_STARTED=$(kubectl get events | grep 'Started container web')
+[ ! -z "${IS_INIT_STARTED}" ] && echo "init started - ${PASSED}" || echo "init started - ${FAILED}"
+[ ! -z "${IS_WEB_STARTED}" ] && echo "web started - ${PASSED}" || echo "web started - ${FAILED}"
 
 # loading the index.html file that was created in the /init folder
 # and is available in the /homework folder
 echo "=== Checking availability of the pod and existense of ${PAGE_FILE}... ==="
 POD_IP=$(kubectl get pod "${POD_NAME}" -o wide -ojsonpath='{.status.podIP}')
 kubectl exec "${POD_NAME}" -- curl -s "http://${POD_IP}:${PORT}"
+IS_PORT_SET=$(kubectl get pod "${POD_NAME}" -o wide -ojsonpath='{.status.podPort}')
+[ "${PORT}" = "${IS_PORT_SET}" ] && echo "pod port set to ${PORT} - ${PASSED}" || echo "pod port set to ${PORT}  - ${FAILED}"
 kubectl cp "${POD_NAME}:homework/${PAGE_FILE}" "./${PAGE_FILE}"
 [ -e "${PAGE_FILE}" ] && echo "${PAGE_FILE} found - ${PASSED}" || echo "${PAGE_FILE} found - ${FAILED}"
 
