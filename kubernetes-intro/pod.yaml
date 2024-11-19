@@ -5,31 +5,39 @@ metadata:
   # 02 namespace homework
   namespace: homework
 spec:
-  # os: {name: linux}
+  os: { name: linux }
   serviceAccountName: homework
+  automountServiceAccountToken: false
+  restartPolicy: Never
   containers:
     # 03 web, port 8080, /homework
     - name: web
       image: nginx:alpine
-      command:
-        - mkdir -p /homework
-        # -
-        # 06 index.html deletion
       ports:
         - containerPort: 8000
-      # 05 common volume /homework /init
+          hostPort: 8000
+          name: web-port
       volumeMounts:
         - name: webvolume
           mountPath: /homework
+      lifecycle:
+        # 05 deletion of /homework/index.html
+        preStop:
+          exec:
+            command:
+              [
+                "/bin/sh",
+                "-c",
+                "rm -f /homework/index.html > /proc/1/fd/1; ls /homework >> /proc/1/fd/1;",
+              ]
 
   initContainers:
     # 04 init, index.html, /init
     - name: init-web
       image: busybox:stable
-      command:
-        - mkdir -p /init
-        # - wget
-      # 05 common volume /homework /init
+      command: ["sh", "-c"]
+      args:
+        - 'echo "<html><title>what is in the pod</title><body>html shared between busibox and nginx<hr></body><html>" > /init/index.html'
       volumeMounts:
         - name: webvolume
           mountPath: /init
