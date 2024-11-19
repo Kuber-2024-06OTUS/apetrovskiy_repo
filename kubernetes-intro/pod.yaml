@@ -4,7 +4,7 @@ metadata:
   name: intro
   namespace: homework
 spec:
-  os: {name: linux}
+  os: { name: linux }
   serviceAccountName: homework
   automountServiceAccountToken: false
   restartPolicy: Never
@@ -22,19 +22,18 @@ spec:
         preStop:
           exec:
             command:
-              - "rm -f /homework/index.html"
+              [
+                "/bin/sh",
+                "-c",
+                "rm -f /homework/index.html > /proc/1/fd/1; ls /homework >> /proc/1/fd/1;",
+              ]
 
   initContainers:
     - name: init-web
       image: busybox:stable
-      # image: busybox:latest
       command: ["sh", "-c"]
       args:
-        - "echo 'Hello World!' > /init/index.html"
-      # command:
-      #   - ls /
-        # - mkdir -p /init
-        # - wget -k -P /init/index.html http://yandex.ru/
+        - 'echo "<html><title>what is in the pod</title><body>html shared between busibox and nginx<hr></body><html>" > /init/index.html'
       volumeMounts:
         - name: webvolume
           mountPath: /init
