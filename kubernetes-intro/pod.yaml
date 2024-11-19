@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: intro
+  # 02 namespace homework
+  namespace: homework
+spec:
+  os: { name: linux }
+  serviceAccountName: homework
+  automountServiceAccountToken: false
+  restartPolicy: Never
+  containers:
+    # 03 web, port 8080, /homework
+    - name: web
+      image: nginx:alpine
+      ports:
+        - containerPort: 8000
+          hostPort: 8000
+          name: web-port
+      volumeMounts:
+        - name: webvolume
+          mountPath: /homework
+      lifecycle:
+        # 05 deletion of /homework/index.html
+        preStop:
+          exec:
+            command:
+              [
+                "/bin/sh",
+                "-c",
+                "rm -f /homework/index.html > /proc/1/fd/1; ls /homework >> /proc/1/fd/1;",
+              ]
+
+  initContainers:
+    # 04 init, index.html, /init
+    - name: init-web
+      image: busybox:stable
+      command: ["sh", "-c"]
+      args:
+        - 'echo "<html><title>what is in the pod</title><body>html shared between busibox and nginx<hr></body><html>" > /init/index.html'
+      volumeMounts:
+        - name: webvolume
+          mountPath: /init
+
+  volumes:
+    - name: webvolume
+      emptyDir: {}
